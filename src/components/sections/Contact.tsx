@@ -48,8 +48,8 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="text-lg font-bold text-white mb-1">Teléfono</h4>
-                <a href="tel:+1234567890" className="text-primary hover:text-primary-light transition-colors text-lg">
-                  +1 (234) 567-890
+                <a href="tel:+51 976268558" className="text-primary hover:text-primary-light transition-colors text-lg">
+                  +51 (976) 268-558
                 </a>
               </div>
             </div>
