@@ -10,7 +10,7 @@ const projects = [
     description: "Plataforma de comercio electrónico con carrito de compras, autenticación de usuarios y pasarela de pago integrada.",
     image: "https://i.pinimg.com/736x/19/98/63/199863be3b12630c791cb5b11850b36a.jpg",
     tags: ["React", "Next.js", "Tailwind CSS", "Stripe"],
-    github: "https://github.com",
+    github: "administrador-thiagoo.vercel.app",
     demo: "https://example.com",
   },
   {
