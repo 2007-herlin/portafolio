@@ -1,23 +1,21 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #06b6d4;
-  --color-primary-light: #22d3ee;
-  --color-primary-dark: #0891b2;
-  --color-secondary: #3b82f6;
-  --color-secondary-light: #60a5fa;
-  --color-accent: #10b981;
-  --color-accent-light: #34d399;
-  --color-cyber-bg: #030712;
+  --color-primary: #38bdf8;
+  --color-primary-light: #7dd3fc;
+  --color-primary-dark: #0284c7;
+  --color-secondary: #818cf8;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: #ffffff;
+  --color-text-muted: #64748b;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  --background: #030712;
-  --foreground: #f3f4f6;
+  --background: #f4f7fb;
+  --foreground: #1e293b;
 }
 
 body {
@@ -28,50 +26,33 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom background cyber grid */
-.cyber-grid {
-  background-image: 
-    linear-gradient(rgba(6, 182, 212, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: center center;
+/* Floating Bubble Background Effect */
+.bg-bubbles {
+  background-image: radial-gradient(#cbd5e1 20%, transparent 20%),
+                    radial-gradient(#cbd5e1 20%, transparent 20%);
+  background-color: var(--background);
+  background-position: 0 0, 50px 50px;
+  background-size: 100px 100px;
+  opacity: 0.3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* Scanline effect */
-.scanline {
-  background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0),
-    rgba(255,255,255,0) 50%,
-    rgba(6, 182, 212, 0.05) 50%,
-    rgba(6, 182, 212, 0.05)
-  );
-  background-size: 100% 4px;
+/* Soft shadows for cards */
+.soft-shadow {
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
 }
 
-/* Glow effects */
-.glow-primary {
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
-}
-
-.glow-secondary {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
-}
-
-.glow-accent {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
-}
-
-.glow-text-primary {
-  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-}
-
-.glow-text-secondary {
-  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-}
-
-.glow-text-accent {
-  text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
 }
 
 /* Custom scrollbar */
@@ -79,51 +60,34 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
+  background: #cbd5e1;
   border-radius: 4px;
-  border: 2px solid #030712;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #06b6d4;
+  background: #94a3b8;
 }
 
 /* Animations */
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.4;
-    transform: scale(1.05);
-  }
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 8s infinite ease-in-out;
+.animate-float {
+  animation: float 4s ease-in-out infinite;
 }
 
-/* Terminal blink cursor */
-.terminal-cursor {
-  display: inline-block;
-  width: 8px;
-  height: 15px;
-  background-color: #06b6d4;
-  animation: blink 1s step-end infinite;
+@keyframes float-delayed {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
 }
 
-@keyframes blink {
-  from, to { background-color: transparent }
-  50% { background-color: #06b6d4; }
-}
-
-/* PCB Trace lines graphic effect */
-.pcb-trace {
-  position: absolute;
-  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.2), transparent);
-  height: 2px;
-  width: 100%;
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+  animation-delay: 2s;
 }

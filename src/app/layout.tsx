@@ -27,7 +27,8 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white flex flex-col">
+      <body className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white flex flex-col relative">
+        <div className="bg-bubbles"></div>
         {children}
       </body>
     </html>

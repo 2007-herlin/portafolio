@@ -2,12 +2,12 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBcQABnTXHWqbW8xMAvZFmvUnu3junU4-Q",
-  authDomain: "portafolio-danicode.firebaseapp.com",
-  projectId: "portafolio-danicode",
-  storageBucket: "portafolio-danicode.firebasestorage.app",
-  messagingSenderId: "1064673782458",
-  appId: "1:1064673782458:web:fd1b5285ce4a7a23ecb083"
+  apiKey: "AIzaSyDAZlFZI2B6akCqP5m3MXDxYkbeeEG5RcQ",
+  authDomain: "market-e2aa1.firebaseapp.com",
+  projectId: "market-e2aa1",
+  storageBucket: "market-e2aa1.firebasestorage.app",
+  messagingSenderId: "403621033764",
+  appId: "1:403621033764:web:390d85c1b9620af6a1a5b1"
 };
 
 // Initialize Firebase (SSR/Next.js hot reload friendly)
