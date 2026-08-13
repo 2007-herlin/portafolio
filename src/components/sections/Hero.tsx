@@ -40,13 +40,13 @@ type FloatingIcon = FloatingIconPos & {
 };
 
 const floatingIcons: FloatingIcon[] = [
-  { Icon: SiReact,      color: "#61DAFB", top: "8%",  left: "8%",   delay: 0 },
-  { Icon: SiJavascript, color: "#F7DF1E", top: "72%", left: "5%",   delay: 0.8 },
-  { Icon: SiTypescript, color: "#3178C6", top: "48%", right: "2%",  delay: 1.6 },
-  { Icon: SiNodedotjs,  color: "#339933", top: "10%", right: "18%", delay: 1.2 },
-  { Icon: SiNextdotjs,  color: "#000000", bottom: "12%", right: "14%", delay: 0.4 },
-  { Icon: SiPython,     color: "#3776AB", bottom: "30%", left: "12%", delay: 2.0 },
-  { Icon: SiTailwindcss,color: "#06B6D4", top: "35%", left: "2%",  delay: 0.6 },
+  { Icon: SiReact, color: "#61DAFB", top: "8%", left: "8%", delay: 0 },
+  { Icon: SiJavascript, color: "#F7DF1E", top: "72%", left: "5%", delay: 0.8 },
+  { Icon: SiTypescript, color: "#3178C6", top: "48%", right: "2%", delay: 1.6 },
+  { Icon: SiNodedotjs, color: "#339933", top: "10%", right: "18%", delay: 1.2 },
+  { Icon: SiNextdotjs, color: "#000000", bottom: "12%", right: "14%", delay: 0.4 },
+  { Icon: SiPython, color: "#3776AB", bottom: "30%", left: "12%", delay: 2.0 },
+  { Icon: SiTailwindcss, color: "#06B6D4", top: "35%", left: "2%", delay: 0.6 },
 ];
 
 // ─── Variantes de animación ───────────────────────────────────────
@@ -55,16 +55,16 @@ const containerVariants = {
   show: {
     transition: { staggerChildren: 0.12, delayChildren: 0.2 },
   },
-};
+} as const;
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { duration: 0.6, ease: "easeOut" as const },
   },
-};
+} as const;
 
 // ─── Props ────────────────────────────────────────────────────────
 interface HeroProps {
@@ -177,42 +177,42 @@ export default function Hero({ profile, socials }: HeroProps) {
           {(profile.years_experience ||
             profile.projects_count ||
             profile.clients_count) && (
-            <motion.div
-              variants={itemVariants}
-              className="flex gap-6 mt-8 pt-6 border-t border-slate-100 w-full"
-            >
-              {profile.years_experience ? (
-                <div>
-                  <p className="text-2xl font-extrabold gradient-text">
-                    {profile.years_experience}+
-                  </p>
-                  <p className="text-xs text-slate-400 font-medium">
-                    Años de exp.
-                  </p>
-                </div>
-              ) : null}
-              {profile.projects_count ? (
-                <div>
-                  <p className="text-2xl font-extrabold gradient-text">
-                    {profile.projects_count}+
-                  </p>
-                  <p className="text-xs text-slate-400 font-medium">
-                    Proyectos
-                  </p>
-                </div>
-              ) : null}
-              {profile.clients_count ? (
-                <div>
-                  <p className="text-2xl font-extrabold gradient-text">
-                    {profile.clients_count}+
-                  </p>
-                  <p className="text-xs text-slate-400 font-medium">
-                    Clientes
-                  </p>
-                </div>
-              ) : null}
-            </motion.div>
-          )}
+              <motion.div
+                variants={itemVariants}
+                className="flex gap-6 mt-8 pt-6 border-t border-slate-100 w-full"
+              >
+                {profile.years_experience ? (
+                  <div>
+                    <p className="text-2xl font-extrabold gradient-text">
+                      {profile.years_experience}+
+                    </p>
+                    <p className="text-xs text-slate-400 font-medium">
+                      Años de exp.
+                    </p>
+                  </div>
+                ) : null}
+                {profile.projects_count ? (
+                  <div>
+                    <p className="text-2xl font-extrabold gradient-text">
+                      {profile.projects_count}+
+                    </p>
+                    <p className="text-xs text-slate-400 font-medium">
+                      Proyectos
+                    </p>
+                  </div>
+                ) : null}
+                {profile.clients_count ? (
+                  <div>
+                    <p className="text-2xl font-extrabold gradient-text">
+                      {profile.clients_count}+
+                    </p>
+                    <p className="text-xs text-slate-400 font-medium">
+                      Clientes
+                    </p>
+                  </div>
+                ) : null}
+              </motion.div>
+            )}
         </motion.div>
 
         {/* ── Columna derecha: avatar + iconos flotantes ── */}
