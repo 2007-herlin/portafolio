@@ -6,7 +6,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import {
   FiHome, FiUser, FiBriefcase, FiCpu, FiStar,
-  FiMail, FiLogOut, FiMenu, FiX, FiCode
+  FiMail, FiLogOut, FiMenu, FiX, FiCode, FiLoader
 } from "react-icons/fi";
 
 const navItems = [
@@ -24,33 +24,54 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
+    async function checkAuth() {
+      const { data } = await supabase.auth.getUser();
       if (!data?.user) {
-        router.push("/admin/login");
-      } else {
-        setUserEmail(data.user.email || "");
+        router.replace("/admin/login");
+        return;
       }
-    });
+      setUserEmail(data.user.email || "");
+      setIsAuthed(true);
+      setAuthChecked(true);
 
-    // Count unread messages
-    supabase
-      .from("contact_messages")
-      .select("id", { count: "exact" })
-      .eq("read", false)
-      .then(({ count }) => setUnreadCount(count || 0));
+      // Count unread messages
+      const { count } = await supabase
+        .from("contact_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("read", false);
+      setUnreadCount(count || 0);
+    }
+
+    checkAuth();
   }, [router]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/admin/login");
+    router.replace("/admin/login");
   };
 
   const isActive = (item: typeof navItems[0]) => {
     if (item.exact) return pathname === item.href;
     return pathname.startsWith(item.href);
   };
+
+  // Show loading screen while checking auth
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-slate-400">
+          <FiLoader className="animate-spin text-3xl text-primary" />
+          <p className="text-sm font-medium">Verificando sesión...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthed) return null;
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
@@ -125,7 +146,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <span>Ver Portafolio</span>
           </Link>
 
-          <div className="px-3 py-2">
+          <div className="px-3 py-1">
             <p className="text-xs text-slate-500 truncate">{userEmail}</p>
           </div>
 
