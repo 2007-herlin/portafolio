@@ -21,6 +21,7 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const isLoginPage = pathname === "/admin/login";
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
@@ -29,9 +30,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     async function checkAuth() {
+      if (isLoginPage) {
+        setAuthChecked(true);
+        setIsAuthed(false);
+        return;
+      }
+
       const { data } = await supabase.auth.getUser();
       if (!data?.user) {
         router.replace("/admin/login");
+        setAuthChecked(true);
+        setIsAuthed(false);
         return;
       }
       setUserEmail(data.user.email || "");
@@ -47,7 +56,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
 
     checkAuth();
-  }, [router]);
+  }, [router, isLoginPage]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -59,8 +68,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return pathname.startsWith(item.href);
   };
 
-  // Show loading screen while checking auth
-  if (!authChecked) {
+  // Show loading screen while checking auth, except on the login page
+  if (!authChecked && !isLoginPage) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4 text-slate-400">
@@ -71,7 +80,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  if (!isAuthed) return null;
+  if (!isLoginPage && !isAuthed) return null;
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
