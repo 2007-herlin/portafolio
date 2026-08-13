@@ -1,31 +1,27 @@
 import { createBrowserClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://zzqzhgwlqqdplppoblyt.supabase.co";
-const SUPABASE_ANON_KEY =
-  "sb_publishable_SV6MrwSnWFuO1UM4N4s2Ng_l9FZEGRI";
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// Client for use in Client Components
+// Cliente para Client Components
 export const supabase = createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Server-side client (for Server Components & Server Actions)
+// Cliente para Server Components
 export const supabaseServer = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Storage bucket name
+// Nombre del bucket de almacenamiento
 export const STORAGE_BUCKET = "imagenes_portafolio";
 
-// Helper: get public URL of an image from the bucket
+// Obtener URL pública de imagen desde el bucket
 export function getStorageUrl(path: string): string {
   if (!path) return "";
-  // If it's already a full URL, return as-is
   if (path.startsWith("http")) return path;
-  const { data } = supabaseServer.storage
-    .from(STORAGE_BUCKET)
-    .getPublicUrl(path);
+  const { data } = supabaseServer.storage.from(STORAGE_BUCKET).getPublicUrl(path);
   return data.publicUrl;
 }
 
-// Database types
+// ─── Tipos de base de datos ───────────────────────────────────────
 export type Profile = {
   id: string;
   name: string;
@@ -36,12 +32,16 @@ export type Profile = {
   location: string;
   avatar_url: string;
   resume_url: string;
+  years_experience?: number;
+  projects_count?: number;
+  clients_count?: number;
   updated_at: string;
 };
 
 export type SocialLink = {
   id: string;
   platform: string;
+  label: string;
   url: string;
   icon: string;
   order_index: number;
@@ -53,6 +53,15 @@ export type TechStackItem = {
   order_index: number;
 };
 
+export type Skill = {
+  id: string;
+  name: string;
+  percentage: number;
+  color: string;
+  category: string;
+  order_index: number;
+};
+
 export type Project = {
   id: string;
   title: string;
@@ -61,6 +70,8 @@ export type Project = {
   image_url: string;
   github_url: string;
   demo_url: string;
+  tags: string[];
+  year: string;
   visible: boolean;
   order_index: number;
   created_at: string;
@@ -71,6 +82,9 @@ export type Experience = {
   title: string;
   company: string;
   description: string;
+  start_date: string;
+  end_date: string;
+  current: boolean;
   side: "left" | "right";
   order_index: number;
 };
@@ -89,6 +103,7 @@ export type ContactMessage = {
   id: string;
   name: string;
   email: string;
+  subject: string;
   message: string;
   read: boolean;
   created_at: string;

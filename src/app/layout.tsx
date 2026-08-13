@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +12,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
-  title: "DanyCode | Full Stack Developer",
-  description: "Portafolio profesional de DanyCode, desarrollador con experiencia en React, Next.js, Java, Python y más.",
+  title: "DanyCode | Desarrollador Full Stack",
+  description: "Portafolio profesional de DanyCode — desarrollador con experiencia en React, Next.js, TypeScript, Node.js y más.",
+  keywords: ["portafolio", "desarrollador", "full stack", "react", "nextjs"],
 };
+
 
 export default function RootLayout({
   children,
@@ -25,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} antialiased`}
     >
       <body className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white flex flex-col relative">
         <div className="bg-bubbles"></div>

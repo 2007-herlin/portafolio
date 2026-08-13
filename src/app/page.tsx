@@ -9,23 +9,28 @@ import Testimonials from "@/components/sections/Testimonials";
 import Contact from "@/components/sections/Contact";
 import TechStackBanner from "@/components/TechStackBanner";
 import { supabaseServer } from "@/lib/supabase";
-import type { Profile, TechStackItem, Project, Testimonial, Experience as ExperienceType, SocialLink } from "@/lib/supabase";
+import type {
+  Profile, TechStackItem, Project, Testimonial,
+  Experience as ExperienceType, SocialLink,
+} from "@/lib/supabase";
 
 const defaultProfile: Profile = {
   id: "",
   name: "DanyCode",
-  title: "Full Stack Developer",
-  bio: "Passionate about building scalable, user-centric web applications.",
-  email: "contact@danycode.dev",
-  phone: "+1 (234) 567-890",
-  location: "Remote / Available Worldwide",
+  title: "Desarrollador Full Stack",
+  bio: "Apasionado por construir aplicaciones web escalables y experiencias digitales increíbles.",
+  email: "contacto@danycode.dev",
+  phone: "",
+  location: "Remoto / Disponible Globalmente",
   avatar_url: "",
-  resume_url: "#",
+  resume_url: "",
+  years_experience: undefined,
+  projects_count: undefined,
+  clients_count: undefined,
   updated_at: "",
 };
 
 export default async function Home() {
-  // Fetch all content from Supabase (Server Component)
   const [
     { data: profileData },
     { data: techStackData },
@@ -42,7 +47,7 @@ export default async function Home() {
     supabaseServer.from("social_links").select("*").order("order_index"),
   ]);
 
-  const profile: Profile = profileData || defaultProfile;
+  const profile: Profile = profileData ? { ...defaultProfile, ...profileData } : defaultProfile;
   const techStack: TechStackItem[] = techStackData || [];
   const projects: Project[] = projectsData || [];
   const testimonials: Testimonial[] = testimonialsData || [];
@@ -52,7 +57,7 @@ export default async function Home() {
   return (
     <>
       <Navbar profile={profile} socials={socials} />
-      <main className="flex-1 pt-24 bg-gradient-to-br from-white to-slate-50 min-h-screen">
+      <main className="flex-1 pt-16 min-h-screen">
         <Hero profile={profile} socials={socials} />
         <TechStackBanner techs={techStack} />
         <About profile={profile} />
@@ -66,4 +71,3 @@ export default async function Home() {
     </>
   );
 }
-
