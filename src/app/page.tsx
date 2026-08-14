@@ -1,5 +1,4 @@
-// Forzar renderizado dinámico en cada request (datos siempre frescos desde Supabase)
-export const revalidate = 0;
+﻿export const revalidate = 0;
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,17 +10,20 @@ import Projects from "@/components/sections/Projects";
 import Testimonials from "@/components/sections/Testimonials";
 import Contact from "@/components/sections/Contact";
 import TechStackBanner from "@/components/TechStackBanner";
+import Skills from "@/components/sections/Skills";
+import Services from "@/components/sections/Services";
+import Resources from "@/components/sections/Resources";
 import { supabaseServer } from "@/lib/supabase";
 import type {
   Profile, TechStackItem, Project, Testimonial,
-  Experience as ExperienceType, SocialLink,
+  Experience as ExperienceType, SocialLink, Service, Resource,
 } from "@/lib/supabase";
 
 const defaultProfile: Profile = {
   id: "",
   name: "DanyCode",
   title: "Desarrollador Full Stack",
-  bio: "Apasionado por construir aplicaciones web escalables y experiencias digitales increíbles.",
+  bio: "Apasionado por construir aplicaciones web escalables y experiencias digitales increibles.",
   email: "contacto@danycode.dev",
   phone: "",
   location: "Remoto / Disponible Globalmente",
@@ -41,6 +43,8 @@ export default async function Home() {
     { data: testimonialsData },
     { data: experienceData },
     { data: socialsData },
+    { data: servicesData },
+    { data: resourcesData },
   ] = await Promise.all([
     supabaseServer.from("profile").select("*").single(),
     supabaseServer.from("tech_stack").select("*").order("order_index"),
@@ -48,6 +52,8 @@ export default async function Home() {
     supabaseServer.from("testimonials").select("*").order("order_index"),
     supabaseServer.from("experience").select("*").order("order_index"),
     supabaseServer.from("social_links").select("*").order("order_index"),
+    supabaseServer.from("services").select("*").eq("visible", true).order("order_index"),
+    supabaseServer.from("resources").select("*").eq("visible", true).order("order_index"),
   ]);
 
   const profile: Profile = profileData ? { ...defaultProfile, ...profileData } : defaultProfile;
@@ -56,6 +62,8 @@ export default async function Home() {
   const testimonials: Testimonial[] = testimonialsData || [];
   const experiences: ExperienceType[] = experienceData || [];
   const socials: SocialLink[] = socialsData || [];
+  const services: Service[] = servicesData || [];
+  const resources: Resource[] = resourcesData || [];
 
   return (
     <>
@@ -64,9 +72,12 @@ export default async function Home() {
         <Hero profile={profile} socials={socials} />
         <TechStackBanner techs={techStack} />
         <About profile={profile} />
+        <Services services={services} />
         <Experience experiences={experiences} />
+        <Skills />
         <Languages />
         <Projects projects={projects} />
+        <Resources resources={resources} />
         <Testimonials testimonials={testimonials} />
         <Contact />
       </main>

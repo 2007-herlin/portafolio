@@ -1,19 +1,14 @@
-import { createBrowserClient } from "@supabase/ssr";
+﻿import { createBrowserClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// Cliente para Client Components
 export const supabase = createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// Cliente para Server Components
 export const supabaseServer = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// Nombre del bucket de almacenamiento
 export const STORAGE_BUCKET = "imagenes_portafolio";
+export const RESOURCES_BUCKET = "recursos_portafolio";
 
-// Obtener URL pública de imagen desde el bucket
 export function getStorageUrl(path: string): string {
   if (!path) return "";
   if (path.startsWith("http")) return path;
@@ -21,7 +16,15 @@ export function getStorageUrl(path: string): string {
   return data.publicUrl;
 }
 
-// ─── Tipos de base de datos ───────────────────────────────────────
+export function getResourceUrl(path: string): string {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  const { data } = supabaseServer.storage.from(RESOURCES_BUCKET).getPublicUrl(path);
+  return data.publicUrl;
+}
+
+// ===== Tipos =====
+
 export type Profile = {
   id: string;
   name: string;
@@ -59,6 +62,30 @@ export type Skill = {
   percentage: number;
   color: string;
   category: string;
+  order_index: number;
+  visible: boolean;
+};
+
+export type Resource = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  file_url: string;
+  file_type: string;
+  visible: boolean;
+  order_index: number;
+  created_at: string;
+};
+
+export type Service = {
+  id: string;
+  name: string;
+  short_desc: string;
+  long_desc: string;
+  icon: string;
+  price_label: string;
+  visible: boolean;
   order_index: number;
 };
 
